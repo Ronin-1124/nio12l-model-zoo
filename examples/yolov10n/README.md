@@ -15,6 +15,18 @@ image -> preprocess -> input bin -> Neuron RuntimeV2 -> 6 raw output bins -> YOL
   - `yolov10n_fp32.dla`
   - `yolov10n_mtk_fp32.tflite`
 
+## Model Conversion
+
+After copying the host-converted TFLite files to the target board, convert them in place:
+
+```bash
+cd models/yolov10n/int8
+ncc-tflite --arch=mdla2.0 -d yolov10n_int8.dla yolov10n_mtk_int8.tflite
+
+cd ../fp32
+ncc-tflite --arch=mdla2.0 -d yolov10n_fp32.dla yolov10n_mtk_fp32.tflite --relax-fp32
+```
+
 ## Build
 
 ```bash

@@ -15,6 +15,18 @@ image -> resize RGB NHWC 224x224 (x/255) -> Neuron RuntimeV2 -> 1001-dim probabi
   - `resnet50_fp32.dla`
   - `resnet50_mtk_fp32.tflite`
 
+## Model Conversion
+
+After copying the host-converted TFLite files to the target board, convert them in place:
+
+```bash
+cd models/resnet50/int8
+ncc-tflite --arch=mdla2.0 -d resnet50_int8.dla resnet50_mtk_int8.tflite
+
+cd ../fp32
+ncc-tflite --arch=mdla2.0 -d resnet50_fp32.dla resnet50_mtk_fp32.tflite --relax-fp32
+```
+
 ## Run
 
 ```bash

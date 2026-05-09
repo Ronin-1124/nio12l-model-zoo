@@ -15,6 +15,18 @@ image -> preprocess -> Neuron RuntimeV2 -> 10 raw outputs -> decode + NMS + mask
   - `yolo26n-seg_fp32.dla`
   - `yolo26n-seg_mtk_fp32.tflite`
 
+## Model Conversion
+
+After copying the host-converted TFLite files to the target board, convert them in place:
+
+```bash
+cd models/yolo26n-seg/int8
+ncc-tflite --arch=mdla2.0 -d yolo26n-seg_int8.dla yolo26n-seg_mtk_int8.tflite
+
+cd ../fp32
+ncc-tflite --arch=mdla2.0 -d yolo26n-seg_fp32.dla yolo26n-seg_mtk_fp32.tflite --relax-fp32
+```
+
 ## Build
 
 ```bash

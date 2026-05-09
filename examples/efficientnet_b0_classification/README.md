@@ -15,6 +15,18 @@ image -> resize RGB NHWC 224x224 (x/255) -> Neuron RuntimeV2 -> 1000-class proba
   - `efficientnet_b0_fp32.dla`
   - `efficientnet_b0_mtk_fp32.tflite`
 
+## Model Conversion
+
+After copying the host-converted TFLite files to the target board, convert them in place:
+
+```bash
+cd models/efficientnet_b0_classification/int8
+ncc-tflite --arch=mdla2.0 -d efficientnet_b0_int8.dla efficientnet_b0_mtk_int8.tflite
+
+cd ../fp32
+ncc-tflite --arch=mdla2.0 -d efficientnet_b0_fp32.dla efficientnet_b0_mtk_fp32.tflite --relax-fp32
+```
+
 ## Run
 
 ```bash

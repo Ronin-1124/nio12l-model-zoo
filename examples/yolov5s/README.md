@@ -23,6 +23,18 @@ image -> preprocess -> input bin -> Neuron RuntimeV2 -> raw output bin -> YOLO p
 - `outputs/yolov5s/`
   - detections and visualization outputs
 
+## Model Conversion
+
+After copying the host-converted TFLite files to the target board, convert them in place:
+
+```bash
+cd models/yolov5s/int8
+ncc-tflite --arch=mdla2.0 -d yolov5s_int8.dla yolov5s_mtk_int8.tflite
+
+cd ../fp32
+ncc-tflite --arch=mdla2.0 -d yolov5s_fp32.dla yolov5s_mtk_fp32.tflite --relax-fp32
+```
+
 ## Build
 
 The project uses a top-level `CMakeLists.txt`:

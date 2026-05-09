@@ -15,6 +15,18 @@ image -> resize RGB NHWC 224x224 -> Neuron RuntimeV2 -> 1001-class logits -> sof
   - `mobilenet_v2_fp32.dla`
   - `mobilenet_v2_mtk_fp32.tflite`
 
+## Model Conversion
+
+After copying the host-converted TFLite files to the target board, convert them in place:
+
+```bash
+cd models/mobilenet_v2/int8
+ncc-tflite --arch=mdla2.0 -d mobilenet_v2_int8.dla mobilenet_v2_mtk_int8.tflite
+
+cd ../fp32
+ncc-tflite --arch=mdla2.0 -d mobilenet_v2_fp32.dla mobilenet_v2_mtk_fp32.tflite --relax-fp32
+```
+
 ## Run
 
 ```bash

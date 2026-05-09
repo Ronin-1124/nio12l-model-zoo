@@ -28,6 +28,18 @@ If your export differs in box order or score semantics, adjust `common/cpp/ssd_m
 
 `common/cpp/coco91_labels.cpp` embeds TensorFlow `mscoco_complete_label_map.pbtxt` `display_name` entries. Index `0..90` aligns with the 91-dim score vector, including placeholder ids (e.g. `"12"`, `"26"`) as defined by the official map.
 
+## Model Conversion
+
+After copying the host-converted TFLite files to the target board, convert them in place:
+
+```bash
+cd models/ssd_mobilenet_v2/int8
+ncc-tflite --arch=mdla2.0 -d ssd_mobilenet_v2_int8.dla ssd_mobilenet_v2_mtk_int8.tflite
+
+cd ../fp32
+ncc-tflite --arch=mdla2.0 -d ssd_mobilenet_v2_fp32.dla ssd_mobilenet_v2_mtk_fp32.tflite --relax-fp32
+```
+
 ## Build and run
 
 ```bash
