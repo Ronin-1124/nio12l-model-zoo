@@ -17,8 +17,8 @@ inline constexpr int kClassCount = 15;
 inline constexpr float kConfidenceThreshold = 0.25f;
 inline constexpr float kIouThreshold = 0.45f;
 
-inline const std::string kDefaultInt8ModelPath = "models/yolo26n-obb/int8/yolo26n-obb_int8.dla";
-inline const std::string kDefaultFp32ModelPath = "models/yolo26n-obb/fp32/yolo26n-obb_fp32.dla";
+inline const std::string kDefaultInt8ModelPath = "examples/yolo26n-obb/model/int8/yolo26n-obb_int8.dla";
+inline const std::string kDefaultFp32ModelPath = "examples/yolo26n-obb/model/fp32/yolo26n-obb_fp32.dla";
 inline constexpr QuantParam kInt8InputQuant = {0.00392157f, -128};
 
 inline constexpr std::array<QuantParam, 3> kInt8AngleQuant = {

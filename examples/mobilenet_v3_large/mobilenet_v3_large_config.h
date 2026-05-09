@@ -13,8 +13,8 @@ inline constexpr int kInputChannels = 3;
 inline constexpr int kClassCount = 1001;
 inline constexpr int kTopK = 5;
 
-inline const std::string kDefaultInt8ModelPath = "models/mobilenet_v3_large/int8/mobilenet_v3_large_int8.dla";
-inline const std::string kDefaultFp32ModelPath = "models/mobilenet_v3_large/fp32/mobilenet_v3_large_fp32.dla";
+inline const std::string kDefaultInt8ModelPath = "examples/mobilenet_v3_large/model/int8/mobilenet_v3_large_int8.dla";
+inline const std::string kDefaultFp32ModelPath = "examples/mobilenet_v3_large/model/fp32/mobilenet_v3_large_fp32.dla";
 
 inline constexpr ClassificationQuantParam kInt8InputQuant = {0.00392157f, -128};
 inline constexpr ClassificationQuantParam kInt8OutputQuant = {0.063437f, -62};

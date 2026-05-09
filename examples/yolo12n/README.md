@@ -6,12 +6,35 @@ This demo follows the same command style as the YOLOv5s/YOLOv8n demos:
 image -> preprocess -> input bin -> Neuron RuntimeV2 -> 6 raw output bins -> YOLO12 postprocess -> result image/json
 ```
 
+## Host-side Conversion
+
+Input size: `512x512`  
+Cut ONNX output: `yolo12n_6head.onnx`
+
+```bash
+cd examples/yolo12n/convert_model
+conda activate yolo-export
+yolo export model=yolo12n format=onnx opset=13 imgsz=512
+
+conda activate np8-cp310
+python cut_onnx.py
+cd ../..
+python prepare_calibration_data.py path=./datasets/coco128/images/train2017 imgsz=512
+cd examples/yolo12n/convert_model
+python convert_mtk_fp32.py
+python convert_mtk_int8.py
+```
+
+Outputs:
+- `yolo12n_mtk_fp32.tflite`
+- `yolo12n_mtk_int8.tflite`
+
 ## Models
 
-- `models/yolo12n/int8/`
+- `model/int8/`
   - `yolo12n_int8.dla`
   - `yolo12n_mtk_int8.tflite`
-- `models/yolo12n/fp32/`
+- `model/fp32/`
   - `yolo12n_fp32.dla`
   - `yolo12n_mtk_fp32.tflite`
 
@@ -20,7 +43,7 @@ image -> preprocess -> input bin -> Neuron RuntimeV2 -> 6 raw output bins -> YOL
 After copying the host-converted TFLite files to the target board, convert them in place:
 
 ```bash
-cd models/yolo12n/int8
+cd model/int8
 ncc-tflite --arch=mdla2.0 -d yolo12n_int8.dla yolo12n_mtk_int8.tflite
 
 cd ../fp32

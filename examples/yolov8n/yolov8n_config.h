@@ -18,8 +18,8 @@ inline constexpr int kRegMax = 16;
 inline constexpr float kConfidenceThreshold = 0.25f;
 inline constexpr float kIouThreshold = 0.45f;
 
-inline const std::string kDefaultInt8ModelPath = "models/yolov8n/int8/yolov8n_int8.dla";
-inline const std::string kDefaultFp32ModelPath = "models/yolov8n/fp32/yolov8n_fp32.dla";
+inline const std::string kDefaultInt8ModelPath = "examples/yolov8n/model/int8/yolov8n_int8.dla";
+inline const std::string kDefaultFp32ModelPath = "examples/yolov8n/model/fp32/yolov8n_fp32.dla";
 inline constexpr QuantParam kInt8InputQuant = {0.00392157f, -128};
 inline constexpr std::array<QuantParam, 3> kInt8OutputQuant = {
     QuantParam{0.159054f, 22},

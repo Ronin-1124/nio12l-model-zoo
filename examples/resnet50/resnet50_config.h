@@ -18,8 +18,8 @@ inline constexpr int kTopK = 5;
 // Reuse the shared 1001-label table (idx 0 = background): map model class id i to labels[i + 1].
 inline constexpr int kLabelOffset = 1;
 
-inline const std::string kDefaultInt8ModelPath = "models/resnet50/int8/resnet50_int8.dla";
-inline const std::string kDefaultFp32ModelPath = "models/resnet50/fp32/resnet50_fp32.dla";
+inline const std::string kDefaultInt8ModelPath = "examples/resnet50/model/int8/resnet50_int8.dla";
+inline const std::string kDefaultFp32ModelPath = "examples/resnet50/model/fp32/resnet50_fp32.dla";
 
 // Matches `input_1` in `resnet50_mtk_int8.tflite`: real-valued range [0,1].
 inline constexpr ClassificationQuantParam kInt8InputQuant = {0.00392157f, -128};

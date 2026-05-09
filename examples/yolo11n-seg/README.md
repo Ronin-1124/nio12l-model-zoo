@@ -6,12 +6,31 @@ This demo follows the same command style as detection demos:
 image -> preprocess -> Neuron RuntimeV2 -> 10 raw outputs -> decode + NMS + mask proto compose -> result image/json
 ```
 
+## Host-side Conversion
+
+Input size: `512x512`  
+Cut ONNX output: `yolo11n-seg_10head.onnx`
+
+```bash
+cd examples/yolo11n-seg/convert_model
+conda activate yolo-export
+yolo export model=yolo11n-seg format=onnx opset=13 imgsz=512
+
+conda activate np8-cp310
+python cut_onnx.py
+cd ../..
+python prepare_calibration_data.py path=./datasets/coco128/images/train2017 imgsz=512
+cd examples/yolo11n-seg/convert_model
+python convert_mtk_fp32.py
+python convert_mtk_int8.py
+```
+
 ## Models
 
-- `models/yolo11n-seg/int8/`
+- `model/int8/`
   - `yolo11n-seg_int8.dla`
   - `yolo11n-seg_mtk_int8.tflite`
-- `models/yolo11n-seg/fp32/`
+- `model/fp32/`
   - `yolo11n-seg_fp32.dla`
   - `yolo11n-seg_mtk_fp32.tflite`
 
@@ -20,7 +39,7 @@ image -> preprocess -> Neuron RuntimeV2 -> 10 raw outputs -> decode + NMS + mask
 After copying the host-converted TFLite files to the target board, convert them in place:
 
 ```bash
-cd models/yolo11n-seg/int8
+cd model/int8
 ncc-tflite --arch=mdla2.0 -d yolo11n-seg_int8.dla yolo11n-seg_mtk_int8.tflite
 
 cd ../fp32

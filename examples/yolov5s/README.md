@@ -10,10 +10,10 @@ image -> preprocess -> input bin -> Neuron RuntimeV2 -> raw output bin -> YOLO p
 
 - `assets/images/`
   - shared sample images such as `bus.jpg` and `zidane.jpg`
-- `models/yolov5s/fp32/`
+- `model/fp32/`
   - `yolov5s_fp32.dla`
   - `yolov5s_mtk_fp32.tflite`
-- `models/yolov5s/int8/`
+- `model/int8/`
   - `yolov5s_int8.dla`
   - `yolov5s_mtk_int8.tflite`
 - `common/cpp/`
@@ -28,7 +28,7 @@ image -> preprocess -> input bin -> Neuron RuntimeV2 -> raw output bin -> YOLO p
 After copying the host-converted TFLite files to the target board, convert them in place:
 
 ```bash
-cd models/yolov5s/int8
+cd model/int8
 ncc-tflite --arch=mdla2.0 -d yolov5s_int8.dla yolov5s_mtk_int8.tflite
 
 cd ../fp32
@@ -76,7 +76,7 @@ Run with a specific model and output directory:
 
 ```bash
 ./build/yolov5s_demo \
-  --model models/yolov5s/int8/yolov5s_int8.dla \
+  --model model/int8/yolov5s_int8.dla \
   --image assets/images/bus.jpg \
   --output-dir outputs/yolov5s
 ```

@@ -18,8 +18,8 @@ inline constexpr float kConfidenceThreshold = 0.35f;
 inline constexpr float kIouThreshold = 0.45f;
 inline constexpr float kKeypointThreshold = 0.5f;
 
-inline const std::string kDefaultInt8ModelPath = "models/yolo26n-pose/int8/yolo26n-pose_int8.dla";
-inline const std::string kDefaultFp32ModelPath = "models/yolo26n-pose/fp32/yolo26n-pose_fp32.dla";
+inline const std::string kDefaultInt8ModelPath = "examples/yolo26n-pose/model/int8/yolo26n-pose_int8.dla";
+inline const std::string kDefaultFp32ModelPath = "examples/yolo26n-pose/model/fp32/yolo26n-pose_fp32.dla";
 inline constexpr QuantParam kInt8InputQuant = {0.00392157f, -128};
 
 inline constexpr std::array<QuantParam, 3> kInt8KptQuant = {

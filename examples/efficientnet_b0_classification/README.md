@@ -6,12 +6,32 @@ This demo follows the same command style as the other ImageNet classification ex
 image -> resize RGB NHWC 224x224 (x/255) -> Neuron RuntimeV2 -> 1000-class probabilities -> top-k -> json
 ```
 
+## Host-side Conversion
+
+This example converts an ONNX model named `efficient_b0.onnx`.
+
+```bash
+cd examples/efficientnet_b0_classification/convert_model
+conda activate np8-cp310
+python download_model.py
+# Prepare efficient_b0.onnx in this directory if it is not already present.
+
+cd ../..
+python prepare_calibration_data.py path=./datasets/imagenet100 imgsz=224
+
+cd examples/efficientnet_b0_classification/convert_model
+python convert_mtk_fp32.py
+python convert_mtk_int8.py
+```
+
+Note: INT8 calibration data is transposed from NCHW to NHWC in `convert_mtk_int8.py`.
+
 ## Models
 
-- `models/efficientnet_b0_classification/int8/`
+- `model/int8/`
   - `efficientnet_b0_int8.dla`
   - `efficientnet_b0_mtk_int8.tflite`
-- `models/efficientnet_b0_classification/fp32/`
+- `model/fp32/`
   - `efficientnet_b0_fp32.dla`
   - `efficientnet_b0_mtk_fp32.tflite`
 
@@ -20,7 +40,7 @@ image -> resize RGB NHWC 224x224 (x/255) -> Neuron RuntimeV2 -> 1000-class proba
 After copying the host-converted TFLite files to the target board, convert them in place:
 
 ```bash
-cd models/efficientnet_b0_classification/int8
+cd model/int8
 ncc-tflite --arch=mdla2.0 -d efficientnet_b0_int8.dla efficientnet_b0_mtk_int8.tflite
 
 cd ../fp32

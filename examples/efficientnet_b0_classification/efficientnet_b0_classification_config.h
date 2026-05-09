@@ -17,9 +17,9 @@ inline constexpr int kTopK = 5;
 inline constexpr int kLabelOffset = 1;
 
 inline const std::string kDefaultInt8ModelPath =
-    "models/efficientnet_b0_classification/int8/efficientnet_b0_int8.dla";
+    "examples/efficientnet_b0_classification/model/int8/efficientnet_b0_int8.dla";
 inline const std::string kDefaultFp32ModelPath =
-    "models/efficientnet_b0_classification/fp32/efficientnet_b0_fp32.dla";
+    "examples/efficientnet_b0_classification/model/fp32/efficientnet_b0_fp32.dla";
 
 // Matches `image_input` in `efficientnet_b0_mtk_int8.tflite`: real-valued range [0,1].
 inline constexpr ClassificationQuantParam kInt8InputQuant = {0.00392157f, -128};

@@ -28,12 +28,35 @@ If your export differs in box order or score semantics, adjust `common/cpp/ssd_m
 
 `common/cpp/coco91_labels.cpp` embeds TensorFlow `mscoco_complete_label_map.pbtxt` `display_name` entries. Index `0..90` aligns with the 91-dim score vector, including placeholder ids (e.g. `"12"`, `"26"`) as defined by the official map.
 
+## Host-side Conversion
+
+This example expects `ssd_mobilenet_v2.onnx`, then exports a core ONNX for MTK conversion.
+
+```bash
+cd examples/ssd_mobilenet_v2/convert_model
+conda activate np8-cp310
+python download_model.py
+# Prepare ssd_mobilenet_v2.onnx in this directory if it is not already present.
+python export_onnx.py
+
+cd ../..
+python prepare_calibration_data.py path=./datasets/coco128/images/train2017 imgsz=300
+
+cd examples/ssd_mobilenet_v2/convert_model
+python convert_mtk_fp32.py
+python convert_mtk_int8.py
+```
+
+Notes:
+- `export_onnx.py` generates `ssd_mobilenet_v2_core.onnx`.
+- INT8 calibration must match `300x300` input.
+
 ## Model Conversion
 
 After copying the host-converted TFLite files to the target board, convert them in place:
 
 ```bash
-cd models/ssd_mobilenet_v2/int8
+cd model/int8
 ncc-tflite --arch=mdla2.0 -d ssd_mobilenet_v2_int8.dla ssd_mobilenet_v2_mtk_int8.tflite
 
 cd ../fp32
@@ -52,8 +75,8 @@ cmake --build build -j
 
 Default models:
 
-- INT8: `models/ssd_mobilenet_v2/int8/ssd_mobilenet_v2_int8.dla`
-- FP32: `models/ssd_mobilenet_v2/fp32/ssd_mobilenet_v2_fp32.dla`
+- INT8: `model/int8/ssd_mobilenet_v2_int8.dla`
+- FP32: `model/fp32/ssd_mobilenet_v2_fp32.dla`
 
 Default output directory: `outputs/ssd_mobilenet_v2/` (`vis/` for visualization, `detections/` for JSON).
 

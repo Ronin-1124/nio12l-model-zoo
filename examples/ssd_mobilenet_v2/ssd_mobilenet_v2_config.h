@@ -20,9 +20,9 @@ inline constexpr float kIouThreshold = 0.45f;
 inline constexpr size_t kTopK = 100;
 
 inline const std::string kDefaultInt8ModelPath =
-    "models/ssd_mobilenet_v2/int8/ssd_mobilenet_v2_int8.dla";
+    "examples/ssd_mobilenet_v2/model/int8/ssd_mobilenet_v2_int8.dla";
 inline const std::string kDefaultFp32ModelPath =
-    "models/ssd_mobilenet_v2/fp32/ssd_mobilenet_v2_fp32.dla";
+    "examples/ssd_mobilenet_v2/model/fp32/ssd_mobilenet_v2_fp32.dla";
 
 /// Matches `preprocessed_input` in `ssd_mobilenet_v2_mtk_int8.tflite`: real-valued input range is about [0,1].
 inline constexpr QuantParam kInt8InputQuant = {0.00392157f, -128};

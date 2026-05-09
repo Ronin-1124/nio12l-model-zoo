@@ -6,12 +6,32 @@ This demo follows the same command style as the other ImageNet classification ex
 image -> resize RGB NHWC 224x224 (x/255) -> Neuron RuntimeV2 -> 1001-dim probabilities -> top-k -> json
 ```
 
+## Host-side Conversion
+
+This example converts an ONNX model named `resnet50.onnx`.
+
+```bash
+cd examples/resnet50/convert_model
+conda activate np8-cp310
+python download_model.py
+# Prepare resnet50.onnx in this directory if it is not already present.
+
+cd ../..
+python prepare_calibration_data.py path=./datasets/imagenet100 imgsz=224
+
+cd examples/resnet50/convert_model
+python convert_mtk_fp32.py
+python convert_mtk_int8.py
+```
+
+Note: INT8 calibration data is transposed from NCHW to NHWC in `convert_mtk_int8.py`.
+
 ## Models
 
-- `models/resnet50/int8/`
+- `model/int8/`
   - `resnet50_int8.dla`
   - `resnet50_mtk_int8.tflite`
-- `models/resnet50/fp32/`
+- `model/fp32/`
   - `resnet50_fp32.dla`
   - `resnet50_mtk_fp32.tflite`
 
@@ -20,7 +40,7 @@ image -> resize RGB NHWC 224x224 (x/255) -> Neuron RuntimeV2 -> 1001-dim probabi
 After copying the host-converted TFLite files to the target board, convert them in place:
 
 ```bash
-cd models/resnet50/int8
+cd model/int8
 ncc-tflite --arch=mdla2.0 -d resnet50_int8.dla resnet50_mtk_int8.tflite
 
 cd ../fp32

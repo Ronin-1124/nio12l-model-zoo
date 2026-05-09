@@ -6,12 +6,31 @@ This demo follows the same command style as other ImageNet classification exampl
 image -> resize RGB NHWC 224x224 -> Neuron RuntimeV2 -> 1001-class logits -> softmax top-k -> json
 ```
 
+## Host-side Conversion
+
+This example uses TensorFlow SavedModel downloaded by `download_model.py`.
+
+```bash
+cd examples/mobilenet_v2/convert_model
+conda activate np8-cp310
+python download_model.py
+
+cd ../..
+python prepare_calibration_data.py path=./datasets/imagenet100 imgsz=224
+
+cd examples/mobilenet_v2/convert_model
+python convert_mtk_fp32.py
+python convert_mtk_int8.py
+```
+
+Note: calibration files are generated in NCHW and transposed to NHWC in the script.
+
 ## Models
 
-- `models/mobilenet_v2/int8/`
+- `model/int8/`
   - `mobilenet_v2_int8.dla`
   - `mobilenet_v2_mtk_int8.tflite`
-- `models/mobilenet_v2/fp32/`
+- `model/fp32/`
   - `mobilenet_v2_fp32.dla`
   - `mobilenet_v2_mtk_fp32.tflite`
 
@@ -20,7 +39,7 @@ image -> resize RGB NHWC 224x224 -> Neuron RuntimeV2 -> 1001-class logits -> sof
 After copying the host-converted TFLite files to the target board, convert them in place:
 
 ```bash
-cd models/mobilenet_v2/int8
+cd model/int8
 ncc-tflite --arch=mdla2.0 -d mobilenet_v2_int8.dla mobilenet_v2_mtk_int8.tflite
 
 cd ../fp32

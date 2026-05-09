@@ -6,12 +6,31 @@ This demo follows the same command style as other YOLO demos:
 image -> preprocess -> Neuron RuntimeV2 -> 9 raw outputs -> OBB decode + rotated NMS -> result image/json
 ```
 
+## Host-side Conversion
+
+Input size: `1024x1024`  
+Cut ONNX output: `yolov8n-obb_9head.onnx`
+
+```bash
+cd examples/yolov8n-obb/convert_model
+conda activate yolo-export
+yolo export model=yolov8n-obb format=onnx opset=13 imgsz=1024
+
+conda activate np8-cp310
+python cut_onnx.py
+cd ../..
+python prepare_calibration_data.py path=./datasets/dota128/images/train imgsz=1024
+cd examples/yolov8n-obb/convert_model
+python convert_mtk_fp32.py
+python convert_mtk_int8.py
+```
+
 ## Models
 
-- `models/yolov8n-obb/int8/`
+- `model/int8/`
   - `yolov8n-obb_int8.dla`
   - `yolov8n-obb_mtk_int8.tflite`
-- `models/yolov8n-obb/fp32/`
+- `model/fp32/`
   - `yolov8n-obb_fp32.dla`
   - `yolov8n-obb_mtk_fp32.tflite`
 
@@ -20,7 +39,7 @@ image -> preprocess -> Neuron RuntimeV2 -> 9 raw outputs -> OBB decode + rotated
 After copying the host-converted TFLite files to the target board, convert them in place:
 
 ```bash
-cd models/yolov8n-obb/int8
+cd model/int8
 ncc-tflite --arch=mdla2.0 -d yolov8n-obb_int8.dla yolov8n-obb_mtk_int8.tflite
 
 cd ../fp32
