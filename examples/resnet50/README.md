@@ -16,7 +16,7 @@ conda activate np8-cp310
 python download_model.py
 # Prepare resnet50.onnx in this directory if it is not already present.
 
-cd ../..
+cd ../../..
 python prepare_calibration_data.py path=./datasets/imagenet100 imgsz=224
 
 cd examples/resnet50/convert_model

@@ -39,7 +39,7 @@ python download_model.py
 # Prepare ssd_mobilenet_v2.onnx in this directory if it is not already present.
 python export_onnx.py
 
-cd ../..
+cd ../../..
 python prepare_calibration_data.py path=./datasets/coco128/images/train2017 imgsz=300
 
 cd examples/ssd_mobilenet_v2/convert_model

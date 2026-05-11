@@ -15,7 +15,7 @@ cd examples/mobilenet_v3_small/convert_model
 conda activate np8-cp310
 python download_model.py
 
-cd ../..
+cd ../../..
 python prepare_calibration_data.py path=./datasets/imagenet100 imgsz=224
 
 cd examples/mobilenet_v3_small/convert_model

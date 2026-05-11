@@ -18,7 +18,7 @@ yolo export model=yolo12n format=onnx opset=13 imgsz=512
 
 conda activate np8-cp310
 python cut_onnx.py
-cd ../..
+cd ../../..
 python prepare_calibration_data.py path=./datasets/coco128/images/train2017 imgsz=512
 cd examples/yolo12n/convert_model
 python convert_mtk_fp32.py

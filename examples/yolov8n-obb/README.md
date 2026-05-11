@@ -18,7 +18,7 @@ yolo export model=yolov8n-obb format=onnx opset=13 imgsz=1024
 
 conda activate np8-cp310
 python cut_onnx.py
-cd ../..
+cd ../../..
 python prepare_calibration_data.py path=./datasets/dota128/images/train imgsz=1024
 cd examples/yolov8n-obb/convert_model
 python convert_mtk_fp32.py
