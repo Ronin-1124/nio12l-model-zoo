@@ -240,8 +240,11 @@ int main(int argc, char** argv) {
         if (runtime.InputSize(0) != input_bytes.size()) {
           throw std::runtime_error("Model input size does not match preprocessing output");
         }
+        const fs::path input_bin_path = output_dir / "input_bins" / (image_stem.string() + ".bin");
+        mtkdemo::WriteBinaryFile(input_bin_path.string(), input_bytes.data(), input_bytes.size());
         std::cout << "Preprocess output: " << input_bytes.size()
                   << " bytes (matches model input[0])\n";
+        std::cout << "Wrote input bin: " << input_bin_path << "\n";
         std::cout << "Skipping NeuronRuntimeV2_run (--skip-runtime).\n";
         continue;
       }

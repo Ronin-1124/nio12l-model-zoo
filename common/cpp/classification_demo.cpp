@@ -15,6 +15,7 @@
 #include "common/cpp/image_io.h"
 #include "common/cpp/imagenet_labels.h"
 #include "common/cpp/neuron_runtime.h"
+#include "common/cpp/preprocess.h"
 
 namespace fs = std::filesystem;
 
@@ -282,8 +283,11 @@ int RunClassificationDemo(int argc, char** argv, const ClassificationDemoConfig&
         throw std::runtime_error("Model input size does not match preprocessing output");
       }
       if (options.skip_runtime) {
+        const fs::path input_bin_path = output_dir / "input_bins" / (image_stem.string() + ".bin");
+        mtkdemo::WriteBinaryFile(input_bin_path.string(), input_bytes.data(), input_bytes.size());
         std::cout << "Preprocess output: " << input_bytes.size()
                   << " bytes (matches model input[0])\n";
+        std::cout << "Wrote input bin: " << input_bin_path << "\n";
         std::cout << "Skipping NeuronRuntimeV2_run (--skip-runtime).\n";
         continue;
       }

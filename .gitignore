@@ -7,6 +7,7 @@ compile_commands.json
 
 # Runtime outputs
 outputs/
+benchmark_results/
 
 # Editors / IDE
 .cursor/
@@ -54,3 +55,6 @@ examples/**/model/**/*.onnx
 # Keep placeholder files inside model folders
 !examples/**/model/fp32/.gitkeep
 !examples/**/model/int8/.gitkeep
+
+# Local cross-session handoff notes
+DEVELOPMENT.md
